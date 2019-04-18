@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load static %}
+    <script src="{% static 'js/jquery-1.11.3.js' %}"></script>
+</head>
+<body>
+<img src="/static/img/7.jpg" alt="" width="200px">
+<form action="/login_/" method="post">
+    {% csrf_token %}
+    <p>用户名：<input type="text" name="username" required></p>
+    <p>密码：<input type="password" name="password" required></p>
+    <input type="hidden" value="{{ count }}" name="count">
+
+        {% if count > 2 %}
+            <p>请输入验证码：<input type="text" name="verify" required>
+            <img src="/test/verifycode/" id="verifyImg"></p>
+        {% endif %}
+
+    <button>提交</button>
+</form>
+
+<p><a href="/register/">注册</a></p>
+{{ message }}
+
+<script>
+    $(function () {
+        $('#verifyImg').click(function () {
+            $(this).prop('src','/test/verifycode/'+Math.random());
+        });
+    })
+</script>
+
+</body>
+</html>
+
+

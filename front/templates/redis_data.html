@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load static %}
+    <script src="{% static 'js/jquery-1.11.3.js' %}"></script>
+</head>
+<body>
+<h1>演示django中利用redis存储数据</h1>
+<form action="/test/redis/save/">
+    <p>key:<input type="text" name="key"> value:<input type="text" name="value"> <button>存数据</button></p>
+</form>
+<br>
+<p>key:<input type="text" id="key"> <button id="query">查询</button></p>
+<span></span>
+
+<script>
+    $(function () {
+        $('#query').click(function () {
+            var data = 'key=' + $('#key').val();
+            var url = '/test/redis/query/' ;
+            $.get(url,data,function (resp) {
+                $('span').html(resp)
+            },'html')
+        })
+    })
+</script>
+</body>
+</html>

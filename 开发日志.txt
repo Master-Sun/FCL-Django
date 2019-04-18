@@ -1,0 +1,76 @@
+1.注册时可以输入空。数据库存的也是空(不是null)username
+    继承自auth的user表不能过滤掉空吗？
+2.重定向给路由地址
+3.比对功能：服务端传输json给客户端：d = {'result':'','order':order_no,'raw1':raw_material1,'raw2':raw_material2}
+    json.dumps()   转为json格式
+    json.loads()   转为python格式
+    前端使用$.get()接收数据，格式参数选为json后不用再转格式，拿到的就是json
+
+4.登录页面添加验证码功能，已知缺陷：0和o区别不大
+    实现方式：登录页中插入img标签，src指向验证码生成的url，返回验证码的同时将验证码的值存入session中
+
+5.DatetimeField和DateField()参数不知什么意思
+    这样可以正常运行，手动插入数据
+    match_time = models.DateTimeField('比对时间',default=False)
+
+6.日期格式输出：
+    {{ record.match_time | date:"Y-m-d" }} {{ record.match_time | time:"H:i:s" }}
+    2019-04-14 10:12:28
+
+7.动态刷新验证码：
+    原理：当一个<img>的src改变时，页面会自动刷新这个<img>
+    请求验证码的url结尾别写死，然后在url后面加个随机数就行
+    <script>
+        $(function () {
+            $('#verifyImg').click(function () {
+                $(this).prop('src','/test/verifycode/'+Math.random());
+            });
+        })
+    </script>
+
+
+8.ajax查询局部刷新页面：服务端响应html内容，前端对div中的html内容进行替换
+
+
+9.按条件查询
+records = Recode.objects.filter(order=order,match_time__startswith=start_date).all()
+def query_(request):
+    if request.is_ajax():
+        order_no = request.GET.get('order_no')
+        start_date = request.GET.get('start_date')
+        end_date = request.GET.get('end_date')
+        records = Recode.objects.all()
+        if order_no:
+            order = Order_list.objects.filter(order_no=order_no).first()
+            records = Recode.objects.filter(order=order)
+        if start_date:
+            records = records.filter(match_time__gte=start_date)
+        if end_date:
+            end_date += ' 23:59:59'
+            records = records.filter(match_time__lt=end_date)
+        return render(request,'table.html',locals())
+    else:
+        records = Recode.objects.all()
+        return render(request,'query.html',locals())
+
+
+10.关闭浏览器session失效：SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+django调优：
+    1.redis设置缓存页面：响应200，但用户实际显示的是缓存的页面
+        应用场景：活动秒杀之前，有用户会频繁刷新页面，通过此方法降低服务器压力
+    2.全栈缓存：设置中间件，适用页面不会更改的场景，如国家新闻网站，几十年都不会变
+        就不用每次访问数据库了
+
+
+
+查询结果导出为csv或pdf
+实现单点登录
+看看登录成功后sesssion里存了啥
+token完成登录验证
+mongoDB在文件上传时的应用？
+实现登录后跳转原网页(通过装饰器跳转至登录页的)
+验证session的清除方式：因关闭浏览器退出，而session表中未删除的
+
+02586378080
+

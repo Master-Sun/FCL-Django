@@ -1,0 +1,41 @@
+<table border="1px solid black">
+    <tr>
+        <th>序号</th>
+        <th>姓名</th>
+        <th>订单号</th>
+        <th>比对结果</th>
+        <th>比对日期</th>
+        <th>输入1</th>
+        <th>输入2</th>
+        <th>正确1</th>
+        <th>正确2</th>
+    </tr>
+
+    {% for record in records %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ record.user.username }}</td>
+        <td>{{ record.order.order_no }}</td>
+        <td>{% if record.result %}
+                {{ '比对成功' }}
+            {% else %}
+                {{ '比对失败' }}
+            {% endif %}
+        </td>
+        <td>{{ record.match_time | date:"Y-m-d" }} {{ record.match_time | time:"H:i:s" }}</td>
+        {% if record.raw_material1 != record.order.product.raw_material1 %}
+            <td bgcolor="red">{{ record.raw_material1 }}</td>
+        {% else %}
+            <td bgcolor="green">{{ record.raw_material1 }}</td>
+        {% endif %}
+        {% if record.raw_material2 != record.order.product.raw_material2 %}
+            <td bgcolor="red">{{ record.raw_material2 }}</td>
+        {% else %}
+            <td bgcolor="green">{{ record.raw_material2 }}</td>
+        {% endif %}
+
+        <td>{{ record.order.product.raw_material1 }}</td>
+        <td>{{ record.order.product.raw_material2 }}</td>
+    </tr>
+    {% endfor %}
+</table>

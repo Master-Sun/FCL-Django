@@ -1,0 +1,11 @@
+
+{% if request.user.is_authenticated %}
+    <h2>欢迎：{{ request.user.name }}
+        <a href="/logout/">注销</a>
+    </h2>
+    <p><a href="/match/">开始比对</a></p>
+    <p><a href="/query/">查询记录</a></p>
+{% else %}
+    <h2><a href="/login/">登录</a>
+        <a href="/register/">注册</a></h2>
+{% endif %}
