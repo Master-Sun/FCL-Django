@@ -1,9 +1,11 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,HttpResponse
 from datetime import datetime
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 import qrcode
 from django.utils.six import BytesIO
+from mytest.models import *
 
 from django.conf import settings
 # Create your views here.
@@ -39,3 +41,25 @@ def qr_code(request):
     buf = BytesIO()
     img.save(buf)
     return HttpResponse(buf.getvalue())
+
+
+@login_required
+def upload(request):
+    return render(request, 'upload.html')
+
+
+@login_required
+def upload_(request):
+    if request.method == 'POST':
+        file = File()
+        file.user = request.user
+        file.file = request.FILES.get('image')
+        file.upload_time = datetime.now()
+        file.save()
+        return HttpResponse('上传成功')
+
+def query_file(request):
+    if request.is_ajax():
+        user = request.user
+        files = File.objects.filter(user=user)
+        return render(request,'file_table.html',locals())

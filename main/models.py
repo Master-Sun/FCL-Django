@@ -32,7 +32,7 @@ class Product(models.Model):
 
 class Order_list(models.Model):
     order_no = models.CharField('订单号',max_length=50,null=False)
-    product = models.ForeignKey(Product,verbose_name='品名')
+    product = models.ForeignKey(Product,verbose_name='品名',on_delete=models.CASCADE)
     add_date = models.DateField('添加时间',auto_now=True)
 
     def __str__(self):
@@ -45,9 +45,9 @@ class Order_list(models.Model):
 
 
 class Recode(models.Model):
-    user = models.ForeignKey(User,verbose_name='生产员工')
+    user = models.ForeignKey(User,verbose_name='生产员工', on_delete=models.CASCADE)
     match_time = models.DateTimeField('比对时间',default=False)
-    order = models.ForeignKey(Order_list,verbose_name='订单')
+    order = models.ForeignKey(Order_list,verbose_name='订单', on_delete=models.CASCADE)
     result = models.BooleanField('比对结果',default=True)
     raw_material1 = models.CharField('物料1',max_length=50,default='')
     raw_material2 = models.CharField('物料2',max_length=50,default='')

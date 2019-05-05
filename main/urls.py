@@ -12,5 +12,4 @@ urlpatterns = [
     url(r'^query/$',views.query_,name='query'),
     url(r'^qrcode_/$',views.qrcode_),
     url(r'^download/$',views.download_),
-
 ]

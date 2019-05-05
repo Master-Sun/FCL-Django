@@ -13,7 +13,11 @@ from django.utils import timezone
 
 # Create your views here.
 
+
 def register(request):
+    # 判断是否已登录
+    if request.user.is_authenticated:
+        return redirect('/')
     return render(request,'register.html')
 
 def register_(request):

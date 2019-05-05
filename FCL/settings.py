@@ -139,12 +139,20 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+
+
+# 文件上传时的保存路径
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
+# 访问上传文件的路径
+MEDIA_URL = '/media/'
+
+# 静态资源的访问路径
 STATIC_URL = '/static/'
+# 设置收集静态资源的路径
+STATIC_ROOT = '/home/tarena/PycharmProjects/project/FCL/front/static'
+
 
 AUTH_USER_MODEL = 'main.User'
-
-#设置收集静态资源的路径
-STATIC_ROOT = '/home/tarena/PycharmProjects/project/FCL/front/static'
 
 
 SESSION_COOKIE_AGE = 60*30

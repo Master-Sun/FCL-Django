@@ -8,6 +8,7 @@
 <body>
 {% load static %}
 <img src="{% static 'img/7.jpg' %} " alt="" width="200px">
+<h1>第一个项目</h1>
 <h1>这是首页，凑合着看吧</h1>
 {% if request.user.is_authenticated %}
     <h2>欢迎：{{ request.user.name }}
